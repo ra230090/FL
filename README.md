@@ -4,8 +4,13 @@ FL
 fault localization
 
 
-put fautloc.py,mystart.c,problemIO and User_code at the same folder
+put fautloc.py,mystart.c,problemIO,ucodes,ufiles,delc.sh,delf.sh at same folder
 
 problemIO contains the correct input output ,sorted by problemID
 
-type cmd: "python3.3 fautloc.py User_code" to run
+put usercode(ie. test.c/test.cpp) in folder ucodes
+
+type cmd: "python3.3 fautloc.py User_code problemID" to run
+ie. python3.3 fautloc.py test.c 10400
+
+check the fault.txt in ufiles sorted by name
