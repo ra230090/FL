@@ -1,11 +1,11 @@
 import os,subprocess,time,sys
 #需要檔案或資訊：usercode,problemID,problemInput,problemOutput
 #file_name=input() #usercode
-file_name=sys.argv[1]
-file_ID=10400
+#file_ID=10400
 #file_ID=input()
-#file_ID=int(sys.argv[2]) #problemID
-timelimit=3
+file_name=sys.argv[1]
+file_ID=int(sys.argv[2]) #problemID
+timelimit=5
 totalline = 0
 D=1
 Nus=[0]
