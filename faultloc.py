@@ -16,7 +16,7 @@ result=[0]
 resultt=[0]
 resulttt=[0]
 wrong_answer=[]
-f = open(file_name, 'r')
+f = open('./ucodes/'+ file_name, 'r')
 while True :
     line = f.readline()
     if line=='': break
@@ -31,8 +31,11 @@ while True :
 f.close()
 
 name=os.path.splitext(file_name)
+path=os.getcwd()
+os.system('mkdir ufiles')
+os.chdir(path+'/ufiles')
 os.system('mkdir %s'%name[0])
-os.system('cp -p %s %s'%(file_name,name[0]))
+os.system('cp -p ../ucodes/%s %s'%(file_name,name[0]))
 os.chdir(os.getcwd()+'/'+name[0])
 
 #print('開始跑user code...')
@@ -41,7 +44,7 @@ for i in range(1,7):
     ###  STEP 1 跑USER的CODE並用GCOV指令來產生GCOV檔
     ###
     #compile with gcov
-    if name[1]=='.c':os.system('gcc -fprofile-arcs -ftest-coverage %s ../mystart.c -o %s\n'%(file_name,name[0]))
+    if name[1]=='.c':os.system('gcc -fprofile-arcs -ftest-coverage %s %s/mystart.c -o %s\n'%(file_name,path,name[0]))
     elif name[1]=='.cpp':os.system('g++ -fprofile-arcs -ftest-coverage %s -o %s\n'%(file_name,name[0]))
     elif name[1]=='.java':print('not support yet\n')
     else :
@@ -50,7 +53,7 @@ for i in range(1,7):
     p = subprocess.Popen('./%s'%(name[0]), stdin = subprocess.PIPE, 
             stdout = subprocess.PIPE, stderr = subprocess.PIPE, shell = False)
     #get input
-    f = open('../problemIO/%d/%d_input%d.txt'%(file_ID,file_ID,i), 'r')
+    f = open('%s/problemIO/%d/%d_input%d.txt'%(path,file_ID,file_ID,i), 'r')
     data = f.read()
     f.close()
     #feed the input
@@ -86,8 +89,8 @@ for i in range(1,7):
     ###
     ###  STEP 2 記下.gcov內容稍後來分析哪一行最可能錯
     ###
-    os.system('diff %d_useroutput%d.txt ../problemIO/%d/%d_output%d.txt >output_same%d.txt'%(file_ID,i,file_ID,file_ID,i,i))
-    os.system('diff -w -B %d_useroutput%d.txt ../problemIO/%d/%d_output%d.txt >output_same_ignore%d.txt'%(file_ID,i,file_ID,file_ID,i,i))
+    os.system('diff %d_useroutput%d.txt %s/problemIO/%d/%d_output%d.txt >output_same%d.txt'%(file_ID,i,path,file_ID,file_ID,i,i))
+    os.system('diff -w -B %d_useroutput%d.txt %s/problemIO/%d/%d_output%d.txt >output_same_ignore%d.txt'%(file_ID,i,path,file_ID,file_ID,i,i))
     f = open('output_same%d.txt'%i, 'r')
     line=f.read()
     f.close()
