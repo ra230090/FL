@@ -6,6 +6,7 @@ import os,subprocess,time,sys
 file_name=sys.argv[1]
 file_ID=int(sys.argv[2]) #problemID
 timelimit=5
+testround=6
 totalline = 0
 D=1
 Nus=[0]
@@ -39,14 +40,16 @@ os.system('cp -p ../ucodes/%s %s'%(file_name,name[0]))
 os.chdir(os.getcwd()+'/'+name[0])
 
 #print('開始跑user code...')
-for i in range(1,7):
+for i in range(1,testround):
     ###
     ###  STEP 1 跑USER的CODE並用GCOV指令來產生GCOV檔
     ###
     #compile with gcov
     if name[1]=='.c':os.system('gcc -fprofile-arcs -ftest-coverage %s %s/mystart.c -o %s\n'%(file_name,path,name[0]))
-    elif name[1]=='.cpp':os.system('g++ -fprofile-arcs -ftest-coverage %s -o %s\n'%(file_name,name[0]))
-    elif name[1]=='.java':print('not support yet\n')
+    elif name[1]=='.cpp':os.system('g++ -fprofile-arcs -ftest-coverage %s %s/mystart.cpp -o %s\n'%(file_name,path,name[0]))
+    elif name[1]=='.java':
+        print('not support yet\n')
+        break
     else :
         print('not c|cpp|java file\n')
         break
@@ -73,7 +76,7 @@ for i in range(1,7):
         f.close()
         
         #if name[1]=='.c':p.send_signal('SIGUSR1')
-        if name[1]=='.c':
+        if name[1]=='.c' or name[1]=='.cpp':
             os.system("bash -c 'kill -s SIGUSR1 %i'" %p.pid)
             #p.kill()
             os.system('kill %i' %p.pid)
